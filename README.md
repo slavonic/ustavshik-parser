@@ -23,7 +23,7 @@ source .v env/bin/activate
 Then, install the package directly from GitHub:
 
 ```bash
-pip install https://github.com/slavonic/ustavshik-parser
+pip install git+https://github.com/slavonic/ustavshik-parser
 ```
 
 ## Usage
