@@ -29,7 +29,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "lxml", "lxmlx"
+  "lxml", "lxmlx", "cslavonic",
 ]
 
 [project.urls]
