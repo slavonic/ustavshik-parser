@@ -2,6 +2,7 @@ import urllib.request
 import lxml.etree as et
 import lxmlx.event as ev
 from cslavonic.ucs_codec import register_UCS
+import re
 
 register_UCS()
 
@@ -12,6 +13,7 @@ def ns(tag):
 
 def html_to_cslavonic(text):
     text = text.replace('\x98ћкw', 'ћкw')  # remove some garbage char
+    text = tidyup(text)
     xml = et.fromstring(text, parser=et.HTMLParser())
     xml = ev.unscan(transform(xml), nsmap={None: NS})
     return et.tostring(xml, encoding='utf-8').decode()
@@ -31,6 +33,7 @@ def grab(url):
         with open(url) as f:
             html = f.read()
 
+    html = tidyup(html)
     xml = et.fromstring(html, parser=et.HTMLParser())
     body = xml.find('.//body')
     styles = list(body.findall('.//style'))
@@ -40,6 +43,18 @@ def grab(url):
 
     yield from transform(body)
 
+def tidyup(html):
+    '''
+    Move leading and trailing spaces out of inline markup (span)
+    '''
+    def swap(mtc):
+        print(mtc)
+        return mtc.group(2) + mtc.group(1)
+    html = re.sub('(<span[^>]*>)(\\s+)', swap, html)
+
+    html = re.sub('(\\s+)(</span>)', swap, html)
+
+    return html
 
 def transform(body):
 
