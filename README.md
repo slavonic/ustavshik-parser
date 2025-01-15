@@ -17,7 +17,7 @@ It is recommended to use virtual Python environment, like this:
 mkdir workdir
 cd workdir
 python3 -m venv .venv
-source .v env/bin/activate
+source .venv/bin/activate
 ```
 
 Then, install the package directly from GitHub:
